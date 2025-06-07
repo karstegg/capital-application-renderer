@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #525659; /* Dark gray for contrast */
+            background-color: #525659;
             font-family: 'Arial', sans-serif;
         }
         #controls {
@@ -43,7 +43,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem; /* Space between pages */
+            gap: 1.5rem;
         }
         .simulated-a4-page {
             width: 210mm;
@@ -52,7 +52,7 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
-            position: relative; /* For absolutely positioned footer */
+            position: relative;
         }
         .header-image-full,
         .footer-image-full {
@@ -68,9 +68,9 @@
         }
         .content-area {
             width: 100%;
-            padding: 0 3.25rem; /* Set default padding that matches visual template */
+            padding: 0 3.25rem;
             flex-grow: 1;
-            overflow: hidden; /* This is key - content will be clipped if it overflows */
+            overflow: hidden;
         }
         .loading-spinner {
             border: 4px solid #f3f3f3;
@@ -84,7 +84,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* All content styling from previous attempts needs to be here for the renderer to use */
         .ca-section-title { font-size: 1rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; padding-bottom: 2px; border-bottom: 1px solid #000; text-transform: uppercase; }
         .ca-subsection-title { font-size: 0.9rem; font-weight: bold; margin-top: 0.75rem; margin-bottom: 0.25rem; }
         .ca-italic-note { font-size: 0.8rem; font-style: italic; margin-top:0.3rem; margin-bottom:0.75rem; }
@@ -118,192 +117,20 @@
     </style>
 </head>
 <body>
-
     <div id="controls">
         <button id="renderButton">Generate Document Preview</button>
         <button onclick="window.print()" disabled>Print</button>
         <span id="status" class="ml-4 text-gray-600"></span>
     </div>
 
-    <!-- Hidden container for the raw content to be paginated -->
     <div id="raw-content-source" class="hidden">
-        <!-- The script now processes ALL children of this container -->
-        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART A - REFERENCE INFORMATION</h2>
-        <table class="ca-table">
-            <tbody>
-                <tr><th style="width: 20%; background-color: #e0e0e0;">Operation Name</th><td style="width: 45%;">ASSMANG BRMO NCH#2</td><th style="width: 15%; background-color: #e0e0e0;">Vote No.</th><td style="width: 20%;"></td></tr>
-                <tr><th style="background-color: #e0e0e0;">Application Date</th><td>05JUN2025</td><th style="background-color: #e0e0e0;">Project Leader</th><td>XAVIER PETERSEN</td></tr>
-                <tr><th style="background-color: #e0e0e0;">Project Title</th><td colspan="3">NCHWANING 2 ROCK WINDER - UNDERLAY CLUTCH TEMPORARY LOCKING & SLIDER REPAIR (PHASE 2)</td></tr>
-                <tr><th style="background-color: #e0e0e0;">Project Value</th><td colspan="3">R1 356 694,47</td></tr>
-                <tr><th style="background-color: #e0e0e0;">Project Start Date</th><td>14JUL2025</td><th style="background-color: #e0e0e0;">Project End Date</th><td>06OCT2025</td></tr>
-            </tbody>
-        </table>
-        <h3 class="ca-subsection-title">Capital Approval Level</h3>
-        <div class="checkbox-container"><div class="checkbox">✓</div><div class="checkbox-label">Senior General Manager</div></div>
-        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Executive Mines: ARM Ferrous</div></div>
-        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">One ARM and One Assore Exco Member</div></div>
-        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Two ARM and Two Assore Exco Members</div></div>
-        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Board Approval</div></div>
-        <h3 class="ca-subsection-title" style="margin-top: 0.5rem;">Type of Capital</h3>
-        <div class="flex space-x-4"> 
-             <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Consolidated Assessment</div></div>
-             <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Capital Application</div></div>
-             <div class="checkbox-container"><div class="checkbox">✓</div><div class="checkbox-label">Replacement Capital</div></div>
-        </div>
-        <h2 class="ca-section-title" style="margin-top:0.5rem;">EXECUTIVE SUMMARY</h2>
-        <!-- By removing the wrapping div, each <p> and <ol> can be processed individually -->
-        <p class="executive-summary-paragraph">The Nchwaning 2 (Nch2) Rock Winder is equipped with two clutches: an Overlay (OL) and an Underlay (UL) Clutch. The UL Clutch was identified as non-functional, being in a worn state and mechanically spragged (fixed) in the engaged position. This impaired its designed function for winder alignment and the legally required pre-shift trip tests by Winding Engine Drivers (WEDs). Consequently, Phase 1 of this project involved a detailed strip-and-measure assessment by the OEM, Winder Controls. This assessment included dismantling the clutch actuation linkage, removing the actuation ring and female clutch ring, and taking out the clutch slider for thorough cleaning, inspection, dimensioning, and 3D scanning to ascertain its condition and repairability.</p>
-        <p class="executive-summary-paragraph">Following the successful completion of Phase 1, the assessment revealed that the UL Clutch slider component has experienced groove wear exceeding 6mm, creating alignment issues that prevent optimal clutch engagement. The extraction ring also shows significant wear requiring replacement. This necessitates Phase 2 for the physical repair and restoration.</p>
-        <p class="executive-summary-paragraph">Phase 2 involves a two-stage repair process:</p>
-        <ol class="executive-summary-list"><li>Installation of temporary clutch locking elements to maintain winder operability while slider components are removed for workshop repair.</li><li>Supply of a new extraction ring with liners, OEM workshop repair of the existing slider, and subsequent re-installation and commissioning of the refurbished components.</li></ol>
-        <p class="executive-summary-paragraph">The UL Clutch is critical for legal compliance, enabling WEDs to perform trip tests each shift per MHSA requirements, and for rope cutting operations at 6-month intervals. Failure to execute this Phase 2 project removes design redundancy and increases wear rates on the OL Clutch. Should the OL Clutch fail before the UL Clutch is restored, excessive downtime would result in production losses exceeding 70 ktpm, as Nchwaning has no alternative ore transport method. The project utilizes OEM expertise as per best practice. Total capital requirement is R1 356 694,47 including base costs, 10% contingency, and 5% engineering fees.</p>
-        <h2 class="ca-section-title" style="margin-top:0.25rem;">BUDGET SUMMARY</h2>
-        <table class="ca-table"><thead><tr><th>Description</th><th class="value-cell">R</th><th class="percentage-cell">Percentage</th></tr></thead><tbody><tr><td>Project Capital (High level breakdown required of categories)</td><td class="value-cell">1 179 734,32</td><td class="percentage-cell"></td></tr><tr><td>Escalation</td><td class="value-cell">0.00</td><td class="percentage-cell">0%</td></tr><tr><td>Contingency</td><td class="value-cell">117 973,43</td><td class="percentage-cell">10%</td></tr><tr><td>Fees</td><td class="value-cell">58 986,72</td><td class="percentage-cell">5%</td></tr><tr><th style="background-color: #e0e0e0;">Total</th><th class="value-cell" style="background-color: #e0e0e0;">1 356 694,47</th><th class="percentage-cell" style="background-color: #e0e0e0;"></th></tr></tbody></table>
-        <p class="ca-italic-note">Expenses that need to be capitalised include any costs directly attributable to bringing the assets to its intended working condition. This includes costs of outside contractors as well as the time spent by resources on capital projects.</p>
-        <h2 class="ca-section-title">CATEGORISATION:</h2>
-        <table class="ca-table"><thead><tr><th style="width:25%;">Complexity</th><th style="width:5%;">✓</th><th style="width:40%;">Guide</th><th style="width:25%;">Project Value R'mil</th><th style="width:5%;">✓</th></tr></thead><tbody><tr><td>High Complexity</td><td class="text-center">&nbsp;</td><td rowspan="4" style="vertical-align: middle;">Requires design, multi-disciplinary inputs and site construction work</td><td>&gt;R500m</td><td class="text-center">&nbsp;</td></tr><tr><td></td><td class="text-center">&nbsp;</td><td>&gt;R250m</td><td class="text-center">&nbsp;</td></tr><tr><td></td><td class="text-center">&nbsp;</td><td>&gt;R70m</td><td class="text-center">&nbsp;</td></tr><tr><td></td><td class="text-center">&nbsp;</td><td>&gt;R30m</td><td class="text-center">&nbsp;</td></tr><tr><td>Low Complexity</td><td class="text-center">✓</td><td rowspan="2" style="vertical-align: middle;">Equipment related or provision of services where no design work is required</td><td>&lt;R30m</td><td class="text-center">✓</td></tr><tr><td></td><td class="text-center">&nbsp;</td><td>&lt;R5m</td><td class="text-center">✓</td></tr></tbody></table>
-        <p class="ca-italic-note">The detail required in the capital application may vary based on complexity and value of the project. Section/s in the application that is not applicable must be indicated accordingly.</p>
-        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART B – QUALITY ASSURANCE</h2>
-        <p class="ca-subsection-title font-semibold" style="margin-top:0.5rem; margin-bottom:0.5rem;">Heads of Departments (HODs) or Specialists</p>
-        <table class="ca-table"><thead><tr><th style="width:35%">Name and Designation</th><th style="width:45%">Comment (from specialist and other stakeholders)</th><th style="width:20%">Signature</th></tr></thead><tbody><tr><td>G Karsten<br><em>Section Head of Project Leader</em></td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td>S TAKU<br><em>HOD of Project Leader</em></td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr></tbody></table>
-        <table class="ca-table" style="margin-top:1rem;"><thead><tr><th style="width:35%">Designation</th><th style="width:25%">Recommended by</th><th style="width:15%">Signature</th><th style="width:25%">Recommendation signatures required</th></tr></thead><tbody><tr><td>ARM Technical</td><td class="signature-block-cell" style="vertical-align: middle; text-align: center;">NA</td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R1m or as requested</td></tr><tr><td>Executive Operations Support</td><td class="signature-block-cell" style="vertical-align: middle; text-align: center;">NA</td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R5m</td></tr><tr><td>Executive Projects</td><td class="signature-block-cell" style="vertical-align: middle; text-align: center;">NA</td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R70m</td></tr></tbody></table>
-        <div class="comments-box" style="min-height: 10rem; margin-top: 1rem;"><p class="ca-italic-note" style="margin-top:0; margin-bottom:0;">Recommendation comments where applicable.</p></div>
-        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART C – APPROVALS</h2>
-        <p class="ca-text" style="font-size:0.8rem;">In this section all relevant stakeholders required to approve the application.</p>
-        <p class="ca-text" style="font-size:0.8rem; margin-bottom:0.5rem;">Signatories – Application is signed according to the Delegation of Authority</p>
-        <table class="ca-table"><thead><tr><th style="width:40%;">&nbsp;</th><th style="width:25%;">NAME</th><th style="width:15%;">SIGNATURE</th><th style="width:20%;">DATE</th></tr></thead><tbody><tr><td class="font-semibold">Operational Capital &lt;R5m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">SGM</td><td style="vertical-align: middle;">X Qamata</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">Operational Capital &gt;R5m &lt;R10m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Executive Mines: ARM Ferrous</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">Operational Capital &gt;R10m &lt;R15m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">ARM EXCO member 1</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Assore EXCO member 1</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">EXCO &gt;R15m &lt;R30m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">ARM EXCO member 2</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Assore EXCO member 2</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">Board Approval &gt;R30m Out of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Company Secretary</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">All Capital</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Executive Finance</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr></tbody></table>
-        <div class="comments-box" style="min-height: 6rem; margin-top: 0.5rem;"><p class="ca-italic-note" style="margin-top:0; margin-bottom:0;">Comments by signatories where applicable.</p></div>
+        <h2 class="ca-section-title" style="margin-top:0.25rem;">EXAMPLE CONTENT - REPLACE WITH YOUR OWN</h2>
+        <p class="ca-text">This is a placeholder for your capital application content. Replace this section with your actual document content.</p>
+        <p class="ca-text">The renderer will automatically paginate your content across multiple A4 pages with headers and footers.</p>
     </div>
 
-    <div id="preview-container">
-        <!-- Pages will be rendered here by JavaScript -->
-    </div>
+    <div id="preview-container"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const renderButton = document.getElementById('renderButton');
-            const printButton = document.querySelector('#controls button:last-of-type');
-            const statusEl = document.getElementById('status');
-            const sourceContainer = document.getElementById('raw-content-source');
-            const previewContainer = document.getElementById('preview-container');
-
-            const HEADER_IMG_URL = 'https://i.imgur.com/OZDMOUw.png';
-            const FOOTER_IMG_URL = 'https://i.imgur.com/mQUgEnh.png';
-
-            const headerImg = new Image();
-            const footerImg = new Image();
-            let imagesLoaded = 0;
-            const totalImages = 2;
-
-            function onImageLoad() {
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) {
-                    renderButton.disabled = false;
-                    statusEl.textContent = 'Ready to generate document.';
-                }
-            }
-            
-            statusEl.textContent = 'Loading resources...';
-            renderButton.disabled = true;
-            headerImg.onload = onImageLoad;
-            footerImg.onload = onImageLoad;
-            headerImg.onerror = () => { statusEl.textContent = 'Error loading header image.'; };
-            footerImg.onerror = () => { statusEl.textContent = 'Error loading footer image.'; };
-            headerImg.src = HEADER_IMG_URL;
-            footerImg.src = FOOTER_IMG_URL;
-
-
-            renderButton.addEventListener('click', () => {
-                renderButton.disabled = true;
-                printButton.disabled = true;
-                statusEl.innerHTML = '<div class="loading-spinner"></div> Rendering...';
-                
-                setTimeout(() => {
-                    try {
-                        paginateContent();
-                        printButton.disabled = false;
-                        statusEl.textContent = `Generated ${previewContainer.children.length} pages.`;
-                    } catch (error) {
-                        statusEl.textContent = 'An error occurred during rendering.';
-                        console.error(error);
-                    } finally {
-                        renderButton.disabled = false;
-                    }
-                }, 100);
-            });
-
-            function paginateContent() {
-                previewContainer.innerHTML = '';
-                
-                // Get a flat list of all individual elements to be rendered
-                const sourceElements = Array.from(sourceContainer.children).flatMap(el => {
-                    // If element is a special container, get its children, otherwise get the element itself
-                    if (el.classList.contains('executive-summary-content')) {
-                        return Array.from(el.children);
-                    }
-                    return [el];
-                });
-
-                let elementIndex = 0;
-
-                function processNextPage() {
-                    if (elementIndex >= sourceElements.length) return; // All done
-
-                    const page = document.createElement('div');
-                    page.className = 'simulated-a4-page';
-                    
-                    const header = document.createElement('img');
-                    header.src = HEADER_IMG_URL;
-                    header.className = 'header-image-full';
-                    page.appendChild(header);
-
-                    const contentArea = document.createElement('div');
-                    contentArea.className = 'content-area';
-                    page.appendChild(contentArea);
-                    previewContainer.appendChild(page);
-
-                    // Must calculate available height AFTER the page is in the DOM
-                    const headerHeight = page.querySelector('.header-image-full').offsetHeight;
-                    const footerHeight = footerImg.height * (page.offsetWidth / footerImg.width); 
-                    const pageHeightInPx = page.offsetHeight;
-                    const availableContentHeight = pageHeightInPx - headerHeight - footerHeight - 1; 
-
-                    contentArea.style.height = `${availableContentHeight}px`;
-                    contentArea.style.maxHeight = `${availableContentHeight}px`;
-
-                    while (elementIndex < sourceElements.length) {
-                        const currentElement = sourceElements[elementIndex];
-                        
-                        const elementClone = currentElement.cloneNode(true);
-                        contentArea.appendChild(elementClone);
-
-                        // Check for overflow
-                        if (contentArea.scrollHeight > availableContentHeight) {
-                            // It overflowed. Remove it and break the loop for this page.
-                            contentArea.removeChild(elementClone);
-                            // Do NOT increment elementIndex. The next page will start with this element.
-                            break; 
-                        }
-                        // If it fit, we can move to the next element.
-                        elementIndex++;
-                    }
-                    
-                    const footer = document.createElement('img');
-                    footer.src = FOOTER_IMG_URL;
-                    footer.className = 'footer-image-full';
-                    page.appendChild(footer);
-
-                    // If there are still elements left, process the next page
-                    if (elementIndex < sourceElements.length) {
-                        processNextPage();
-                    }
-                }
-
-                if(sourceElements.length > 0) {
-                     processNextPage();
-                }
-            }
-        });
-    </script>
+    <script src="renderer.js"></script>
 </body>
 </html>
