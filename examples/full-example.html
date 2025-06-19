@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capital Application - Full Example</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <div id="controls">
@@ -14,7 +14,7 @@
         <span id="status" class="ml-4 text-gray-600"></span>
     </div>
 
-    <div id="raw-content-source" class="hidden">
+    <div id="raw-content-source" class="hidden" data-header-image-src="../assets/images/Header.png" data-footer-image-src="../assets/images/Footer.png">
         <h2 class="ca-section-title" style="margin-top:0.25rem;">PART A - REFERENCE INFORMATION</h2>
         <table class="ca-table">
             <tbody>
@@ -63,6 +63,6 @@
 
     <div id="preview-container"></div>
 
-    <script src="renderer.js"></script>
+    <script src="../renderer.js"></script>
 </body>
 </html>

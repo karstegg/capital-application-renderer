@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Application Dynamic Page Renderer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="controls">
+        <button id="renderButton">Generate Document Preview</button>
+        <button onclick="window.print()" disabled>Print</button>
+        <span id="status" class="ml-4 text-gray-600"></span>
+    </div>
+
+    <div id="raw-content-source" class="hidden" data-header-image-src="assets/images/Header.png" data-footer-image-src="assets/images/Footer.png">
+        <h1 class="text-2xl font-bold text-center my-4 ca-main-title">CAPITAL APPLICATION FORM - OUT OF PLAN</h1>
+
+        <h2 class="ca-section-title">PART A: REFERENCE INFORMATION</h2>
+        <table class="ca-table">
+            <tbody>
+                <tr><th style="width: 25%;">Operation Name</th><td style="width: 35%;">Placeholder Operation Name</td><th style="width: 15%;">Vote No.</th><td style="width: 25%;">Placeholder Vote No.</td></tr>
+                <tr><th>Application Date</th><td>DD/MM/YYYY</td><th>Project Leader</th><td>Placeholder Project Leader</td></tr>
+                <tr><th>Project Title</th><td colspan="3">Placeholder Project Title for the Capital Application</td></tr>
+                <tr><th>Project Value</th><td>0.00</td><th>Currency</th><td>ZAR</td></tr>
+                <tr><th>Project Start Date</th><td>DD/MM/YYYY</td><th>Project End Date</th><td>DD/MM/YYYY</td></tr>
+            </tbody>
+        </table>
+        <h3 class="ca-subsection-title">Capital Approval Level Required</h3>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Senior General Manager</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">General Manager</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">EXCO &lt;R15m In Plan</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">EXCO &gt;R15m &lt;R30m Out Of Plan</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Board Approval &gt;R30m Out of Plan</div></div>
+        <h3 class="ca-subsection-title">Capital Category</h3>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Maintenance</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Replacement</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Expansion</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">New</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Strategic</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Regulatory</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Health & Safety</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Environmental</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">IT</div></div>
+        <div class="checkbox-container"><div class="checkbox"></div><div class="checkbox-label">Other (Specify): <input type="text" class="ca-input-inline"></div></div>
+
+        <h2 class="ca-section-title">PART B: EXECUTIVE SUMMARY</h2>
+        <p class="ca-text">Provide a high-level overview of the project, including the problem, proposed solution, key benefits, and total investment.</p>
+
+        <h2 class="ca-section-title">PART C: PROJECT JUSTIFICATION</h2>
+        <h3 class="ca-subsection-title">Business Need / Problem Statement</h3>
+        <p class="ca-text">Describe the business need or problem that this project addresses.</p>
+        <h3 class="ca-subsection-title">Alternatives Considered</h3>
+        <p class="ca-text">Outline any alternative solutions considered and why the proposed solution was chosen. Include 'do nothing' option.</p>
+        <h3 class="ca-subsection-title">Proposed Solution & Alignment with Strategy</h3>
+        <p class="ca-text">Detail the proposed solution and explain how it aligns with the company's strategic objectives.</p>
+
+        <h2 class="ca-section-title">PART D: SCOPE OF WORK</h2>
+        <p class="ca-text">Provide a detailed description of the project scope, including key deliverables, activities, inclusions, and exclusions.</p>
+
+        <h2 class="ca-section-title">PART E: RISK ASSESSMENT</h2>
+        <table class="ca-table">
+            <thead><tr><th>Risk Description</th><th>Likelihood (L/M/H)</th><th>Impact (L/M/H)</th><th>Risk Rating</th><th>Mitigation Measures</th></tr></thead>
+            <tbody>
+                <tr><td>Placeholder: Technical Risk</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Placeholder: Financial Risk</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Placeholder: Operational Risk</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="ca-section-title">PART F: FINANCIAL EVALUATION</h2>
+        <h3 class="ca-subsection-title">Detailed Cost Breakdown</h3>
+        <table class="ca-table">
+            <thead><tr><th>Cost Element</th><th>Estimated Cost (ZAR)</th><th>Quote Ref. / Basis</th><th>% of Total</th></tr></thead>
+            <tbody>
+                <tr><td>Capital Expenditure</td><td></td><td></td><td></td></tr>
+                <tr><td>Operating Expenditure (if any)</td><td></td><td></td><td></td></tr>
+                <tr><td>Contingency (e.g., 10%)</td><td></td><td></td><td></td></tr>
+                <tr><th>Total Estimated Project Cost</th><th></th><th></th><th>100%</th></tr>
+            </tbody>
+        </table>
+        <h3 class="ca-subsection-title">Funding Source</h3>
+        <p class="ca-text">Specify the proposed source of funding for this project.</p>
+        <h3 class="ca-subsection-title">Financial Viability / Return on Investment</h3>
+        <p class="ca-text">NPV: Placeholder | IRR: Placeholder | Payback Period: Placeholder. Attach detailed calculations if necessary.</p>
+
+        <h2 class="ca-section-title">PART G: PROJECT IMPLEMENTATION PLAN & TIMELINE</h2>
+        <table class="ca-table">
+            <thead><tr><th>Phase / Key Activity</th><th>Start Date</th><th>End Date</th><th>Duration</th><th>Responsibility</th></tr></thead>
+            <tbody>
+                <tr><td>Phase 1: Planning & Design</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Phase 2: Procurement</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Phase 3: Execution</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Phase 4: Commissioning & Handover</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="ca-section-title">PART H: RESOURCE REQUIREMENTS</h2>
+        <h3 class="ca-subsection-title">Human Resources (Internal & External)</h3>
+        <p class="ca-text">Detail key personnel and man-hours required.</p>
+        <h3 class="ca-subsection-title">Equipment & Materials</h3>
+        <p class="ca-text">List major equipment and materials needed.</p>
+
+        <h2 class="ca-section-title">PART I: HEALTH, SAFETY & ENVIRONMENTAL (HSE) IMPACT</h2>
+        <p class="ca-text">Describe any HSE impacts and mitigation plans. Confirm compliance with relevant regulations.</p>
+
+        <h2 class="ca-section-title">PART J: QUALITY ASSURANCE / CONTROL (QA/QC)</h2>
+        <p class="ca-text">Outline QA/QC measures to ensure project deliverables meet standards.</p>
+
+        <h2 class="ca-section-title">PART K: STAKEHOLDER IDENTIFICATION & COMMUNICATION PLAN</h2>
+        <p class="ca-text">Identify key stakeholders and outline the communication plan.</p>
+
+        <h2 class="ca-section-title">PART L: ATTACHMENTS</h2>
+        <p class="ca-text">List all supporting documents attached (e.g., quotes, technical drawings, detailed financial models).</p>
+        <ul class="ca-list">
+            <li>Attachment 1: Placeholder</li>
+            <li>Attachment 2: Placeholder</li>
+        </ul>
+
+        <h2 class="ca-section-title">PART M: DECLARATION BY ORIGINATOR</h2>
+        <p class="ca-text">I declare that the information provided in this application is accurate to the best of my knowledge.</p>
+        <table class="ca-table">
+            <tbody>
+                <tr><th style="width:20%">Name:</th><td style="width:80%" class="signature-block-cell"></td></tr>
+                <tr><th>Position:</th><td class="signature-block-cell"></td></tr>
+                <tr><th>Signature:</th><td class="signature-block-cell"></td></tr>
+                <tr><th>Date:</th><td class="signature-block-cell"></td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="ca-section-title">PART N: REVIEW, RECOMMENDATION & APPROVAL SIGNATURES</h2>
+        <p class="ca-text">Each signatory confirms they have reviewed this application and support its submission for approval, subject to any comments below.</p>
+        <table class="ca-table">
+            <thead><tr><th>Approval Level / Role</th><th>Name</th><th>Position</th><th>Recommendation (Approve/Reject/Comment)</th><th>Signature</th><th>Date</th></tr></thead>
+            <tbody>
+                <tr><td>Head of Department</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Engineering Lead (if applicable)</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Safety Manager (if applicable)</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Finance Controller / Manager</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Operations Manager</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>General Manager</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>EXCO Member 1</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>EXCO Member 2 (if req.)</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Board Representative (if req.)</td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="ca-section-title">PART O: COMMENTS</h2>
+        <div class="comments-box" style="min-height: 8rem;">
+            <p class="ca-text">Reviewers and approvers to add comments here. Specify by whom and when if multiple comments.</p>
+        </div>
+    </div>
+
+    <div id="preview-container"></div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

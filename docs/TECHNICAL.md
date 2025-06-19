@@ -1,86 +1,37 @@
 # Technical Documentation
 
-## Architecture Overview
+This document provides a technical overview of the Capital Application Renderer, focusing on the core rendering and pagination logic.
 
-The Capital Application Renderer is a client-side web application that uses:
-- HTML5 for structure
-- CSS3 for styling and print optimization
-- Vanilla JavaScript for pagination logic
-- Tailwind CSS for utility classes
+## Core Files
 
-## Core Components
+-   **`index.html`**: The main entry point. It contains the document's raw HTML content within `<div id="raw-content-source">`. This content is hidden from view and serves as the master template for the renderer.
+-   **`renderer.js`**: The heart of the application. This script contains all logic for cloning content, managing pagination, handling page breaks, and controlling the UI.
+-   **`styles.css`**: Contains all custom CSS for styling the simulated A4 pages, content elements (titles, tables, etc.), and print-specific rules.
 
-### 1. HTML Structure
+## Pagination Logic (`renderer.js`)
 
-```html
-<div id="controls">          <!-- Control panel -->
-<div id="raw-content-source"> <!-- Source content (hidden) -->
-<div id="preview-container">  <!-- Rendered pages appear here -->
-```
+The pagination process is handled by the `paginateContent()` function and its inner helper `processNextPage()`. The process is as follows:
 
-### 2. Pagination Algorithm
+1.  **Initialization**: The main `preview-container` is cleared.
+2.  **Content Pre-processing**: Before pagination begins, the script queries the `sourceContainer` for any known HTML artifacts that can cause layout issues (e.g., `<div class="comments-box">`) and removes them from the DOM. This ensures a clean source for pagination.
+3.  **Element Processing**: The script iterates through the child elements of the `sourceContainer`.
+4.  **Page Creation**: For each new page, a `div.simulated-a4-page` is created, and the header/footer images are added. The available vertical space for content is calculated based on the page height minus the header and footer heights.
+5.  **Content Filling Loop**: The script adds one element at a time to the current page's `.content-area` and checks the `scrollHeight`.
+    -   If the `scrollHeight` exceeds the available height, the last-added element is removed and pushed back into the queue to be processed on the next page.
+6.  **Intelligent List Splitting**: If an element is a list (`<ul>` or `<ol>`), the script doesn't just add the whole list. Instead, it creates a new list container on the page and adds list items (`<li>`) one by one. If a list item causes an overflow, it is removed, and the rest of the list items are processed on the next page. This allows lists to be split cleanly across pages.
+7.  **Orphan Heading Control**: After a page is filled with content, a final check is performed:
+    -   The script inspects the last element on the page.
+    -   It checks if the element's trimmed, uppercase text matches any of the strings in the `STICKY_HEADINGS` array.
+    -   If it's a match AND there are still more elements left to process in the main queue, the heading is removed from the current page and moved to the next. This prevents headings from being orphaned at the bottom of a page.
+8.  **Completion**: The loop continues until all elements from `sourceContainer` have been placed on a page.
 
-The `paginateContent()` function:
-1. Clears previous render
-2. Extracts all child elements from source
-3. Creates new A4 pages as needed
-4. Calculates available content height
-5. Adds elements until overflow detected
-6. Moves overflowing elements to next page
+## Key Data Structures
 
-```javascript
-function processNextPage() {
-    // Create page structure
-    // Add header
-    // Fill with content until overflow
-    // Add footer
-    // Recurse if more content
-}
-```
+-   **`sourceElements` (Array)**: A flat array of all top-level DOM nodes from the `#raw-content-source` container. This serves as the master queue of content to be paginated.
+-   **`STICKY_HEADINGS` (Array of Strings)**: Found in `renderer.js`, this array contains the exact text of headings that should "stick" with the content that follows them. The matching is case-insensitive.
 
-### 3. Image Preloading
+## Styling and Layout
 
-Header and footer images are preloaded before rendering:
-- Ensures accurate height calculations
-- Prevents layout shifts
-- Shows loading status to user
-
-### 4. Print Optimization
-
-CSS `@media print` rules:
-- Hide control panel
-- Remove page shadows
-- Set proper page breaks
-- Ensure white background
-
-## Key Functions
-
-### `onImageLoad()`
-Tracks image loading progress and enables render button when ready.
-
-### `paginateContent()`
-Main pagination logic that splits content across pages.
-
-### `processNextPage()`
-Recursive function that creates individual pages.
-
-## Browser APIs Used
-
-- `cloneNode()` - Duplicates elements for pagination
-- `scrollHeight` - Detects content overflow
-- `offsetHeight` - Calculates element dimensions
-- `window.print()` - Triggers print dialog
-
-## Performance Considerations
-
-- Elements are cloned, not moved (preserves source)
-- Pagination runs asynchronously with setTimeout
-- Images cached after first load
-- Minimal DOM manipulation during render
-
-## Customization Points
-
-1. **Header/Footer Images**: Update URLs in `renderer.js`
-2. **Page Margins**: Modify `.content-area` padding
-3. **Page Size**: Adjust `.simulated-a4-page` dimensions
-4. **Styling**: Edit `styles.css` or add new classes
+-   **A4 Simulation**: The `.simulated-a4-page` class uses fixed `mm` dimensions to accurately represent an A4 page on screen.
+-   **Content Area**: The `.content-area` uses Flexbox (`flex-grow: 1`) to automatically fill the available space between the header and footer. Its `overflow: hidden` property is critical for `scrollHeight` calculations.
+-   **Print Styles**: An `@media print` block in `styles.css` overrides screen styles for a clean print output. It hides UI controls, removes shadows, and ensures proper page breaks.
