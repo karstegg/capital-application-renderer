@@ -3,9 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capital Application Dynamic Page Renderer</title>
+    <title>Capital Application - Caterpillar 444 Backhoe Loader</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Base styles */
+        body {
+            background-color: #525659;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Control panel */
+        #controls {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #controls button {
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #controls button:hover {
+            background-color: #0056b3;
+        }
+
+        #controls button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* Preview container */
+        #preview-container {
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* A4 page simulation for screen view */
+        .simulated-a4-page {
+            width: 210mm;
+            height: 297mm; /* Fixed A4 height for screen */
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header-image-full,
+        .footer-image-full {
+            width: 100%;
+            height: auto;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .footer-image-full {
+            margin-top: auto;
+        }
+
+        .content-area {
+            width: 100%;
+            padding: 0 3.25rem;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Content styles using print-friendly units (points) */
+        .ca-section-title {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #000;
+            text-transform: uppercase;
+        }
+
+        .ca-subsection-title {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+        
+        .ca-text {
+            font-size: 12pt;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            text-align: justify;
+        }
+
+        .ca-list {
+            font-size: 12pt;
+            line-height: 1.4;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            list-style-type: disc;
+            text-align: justify;
+        }
+        
+        .ca-list ul {
+             list-style-type: circle;
+             margin-left: 1.5rem;
+             margin-top: 0.5rem;
+        }
+
+
+        /* Tables */
+        .ca-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .ca-table th,
+        .ca-table td {
+            border: 1px solid #000;
+            padding: 0.3rem 0.5rem;
+            text-align: left;
+            font-size: 10pt;
+            line-height: 1.3;
+            vertical-align: top;
+        }
+
+        .ca-table th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        /* Checkboxes */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .checkbox {
+            width: 1em;
+            height: 1em;
+            border: 1px solid #000;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11pt;
+            line-height: 1em;
+        }
+
+        .checkbox-label {
+            font-size: 11pt;
+            text-transform: uppercase;
+        }
+        
+        /* Comments box & Signature blocks */
+        .comments-box, .signature-block-cell {
+             page-break-inside: avoid;
+        }
+        .signature-block-cell {
+            height: 2.5rem;
+        }
+
+        /* --- ADVANCED PRINT STYLES --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 1cm; /* Standard printer margin */
+            }
+
+            body, html {
+                background: #fff !important;
+            }
+           
+            /* Hide the controls and original content source */
+            #controls, #raw-content-source {
+                display: none !important;
+            }
+            
+            /* Make the preview container the only thing visible */
+            #preview-container {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .simulated-a4-page {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important; /* Let the content define the height */
+                min-height: 1px !important;
+                page-break-after: always;
+            }
+            
+            .simulated-a4-page:last-child {
+                page-break-after: avoid;
+            }
+
+            /* Rules to prevent elements from splitting across pages */
+            .ca-table, .ca-list, .ca-text, .checkbox-container {
+                page-break-inside: avoid;
+            }
+             h2, h3 {
+                page-break-after: avoid;
+            }
+
+            /* Force printing of background colors for table shading */
+            .ca-table th,
+            .ca-table caption {
+                background-color: #e0e0e0 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+
+            .ca-table tbody tr:nth-child(even) {
+                background-color: #F8F8F8 !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+
+        /* Utility classes */
+        .hidden { display: none; }
+        .text-center { text-align: center; }
+        .font-semibold { font-weight: 600; }
+    </style>
 </head>
 <body>
     <div id="controls">
@@ -15,14 +275,174 @@
     </div>
 
     <div id="raw-content-source" class="hidden">
-        <h2 class="ca-section-title" style="margin-top:0.25rem;">EXAMPLE CONTENT - REPLACE WITH YOUR OWN</h2>
-        <p class="ca-text">This is a placeholder for your capital application content. Replace this section with your actual document content.</p>
-        <p class="ca-text">The renderer will automatically paginate your content across multiple A4 pages with headers and footers.</p>
-        <p class="ca-text">To see a full example, check out the examples/full-example.html file.</p>
+        <!-- Raw content remains the same -->
+        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART A - REFERENCE INFORMATION</h2>
+        <table class="ca-table">
+            <tbody>
+                <tr><th style="width: 20%; background-color: #e0e0e0;">Operation Name</th><td style="width: 45%;">Nchwaning 3</td><th style="width: 15%; background-color: #e0e0e0;">Vote No.</th><td style="width: 20%;">TBC</td></tr>
+                <tr><th style="background-color: #e0e0e0;">Application Date</th><td>2025/04/15</td><th style="background-color: #e0e0e0;">Project Leader</th><td>G Karsten</td></tr>
+                <tr><th style="background-color: #e0e0e0;">Project Title</th><td colspan="3">SUPPLY, DELIVERY AND COMMISSIONING OF A CATERPILLAR 444 BACKHOE LOADER</td></tr>
+                <tr><th style="background-color: #e0e0e0;">Project Value</th><td colspan="3">R9 745 759</td></tr>
+                <tr><th style="background-color: #e0e0e0;">Project Start Date</th><td>July 2025</td><th style="background-color: #e0e0e0;">Project End Date</th><td>May 2026</td></tr>
+            </tbody>
+        </table>
+        <h3 class="ca-subsection-title">Capital Approval Level</h3>
+        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Senior General Manager and Financial Manager</div></div>
+        <div class="checkbox-container"><div class="checkbox">✓</div><div class="checkbox-label">Executive Operations (Mines) and Senior Executive Finance</div></div>
+        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">One ARM and One Assore Exco Member</div></div>
+        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Two ARM and Two Assore Exco Members</div></div>
+        <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Board Approval</div></div>
+        <h3 class="ca-subsection-title" style="margin-top: 0.5rem;">Type of Capital</h3>
+        <div style="display: flex; gap: 1rem;"> 
+             <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Consolidated</div></div>
+             <div class="checkbox-container"><div class="checkbox">✓</div><div class="checkbox-label">Capital</div></div>
+             <div class="checkbox-container"><div class="checkbox">&nbsp;</div><div class="checkbox-label">Replacement</div></div>
+        </div>
+        <h2 class="ca-section-title" style="margin-top:0.5rem;">EXECUTIVE SUMMARY</h2>
+        <p class="ca-text">
+            This Capital Application is for the purchase of a Caterpillar 444 Backhoe Loader, to be fitted with a H80S hammer, for a proof of concept that will run over a period of 6 months at Black Rock Mine Operations (BRMO). The POC aims to address persistent challenges with non-compliance to planned mining dimensions, particularly mining heights, which has led to significant safety risks, production losses, and ore quality issues.
+        </p>
+        <p class="ca-text">
+            Since 2021, mining faces at less than the planned 4.5-5.0m height has resulted in improper roof support installation (a major Fall of Ground risk), reduced tonnes per blast, and mining into the hanging wall, which compromises ore quality. An investigation identified the primary cause as the limited capability of the current scalers, which cannot effectively clear and back-lash accumulated ore from the face footwall.
+        </p>
+        <p class="ca-text">
+            After evaluating six different manufacturers, none could meet BRMO’s requirement to both bar the face and back-lash material. In response, Cat Barloworld has proposed a redesigned Caterpillar 444 Backhoe Loader specifically modified to perform both functions. The proposed solution offers a unique combination of reach, maneuverability, and power, which existing equipment lacks. The total capital required for this project is R9,745,759.00, covering the machine purchase, modifications, and a proof of concept that will run over a period of 6 months to validate its effectiveness. If the POC is successful we will replace all Scalers with this new type. Alternatively we will replace the original backhoe and redeploy the unit on surface. Successful implementation is projected to significantly improve safety by ensuring all faces are adequately prepared, reduce production downtime, and potentially unlock previously inaccessible ore reserves. This investment aligns with BRMO's commitment to Zero Harm and operational excellence.
+        </p>
+
+        <h2 class="ca-section-title" style="margin-top:0.25rem;">BUDGET SUMMARY</h2>
+        <table class="ca-table"><thead><tr><th>Description</th><th class="value-cell">R</th><th class="percentage-cell">Percentage</th></tr></thead><tbody><tr><td>Project Capital (Barloworld Quote BWE/2025/K11168)</td><td class="value-cell">7,796,607.00</td><td class="percentage-cell"></td></tr><tr><td>Escalation</td><td class="value-cell">779,661.00</td><td class="percentage-cell">10%</td></tr><tr><td>Contingency</td><td class="value-cell">779,661.00</td><td class="percentage-cell">10%</td></tr><tr><td>Fees</td><td class="value-cell">389,830.00</td><td class="percentage-cell">5%</td></tr><tr><th style="background-color: #e0e0e0;">Total</th><th class="value-cell" style="background-color: #e0e0e0;">9,745,759.00</th><th class="percentage-cell" style="background-color: #e0e0e0;">100%</th></tr></tbody></table>
+        
+        <h2 class="ca-section-title">CATEGORISATION:</h2>
+        <table class="ca-table"><thead><tr><th style="width:25%;">Complexity</th><th style="width:5%;">✓</th><th style="width:40%;">Guide</th><th style="width:25%;">Project Value R'mil</th><th style="width:5%;">✓</th></tr></thead><tbody><tr><td>High Complexity</td><td class="text-center">&nbsp;</td><td rowspan="1" style="vertical-align: middle;">Requires design, multi-disciplinary inputs and site construction work</td><td>&gt;R30m</td><td class="text-center">&nbsp;</td></tr><tr><td>Low Complexity</td><td class="text-center">✓</td><td rowspan="1" style="vertical-align: middle;">Equipment related or provision of services where no design work is required</td><td>&lt;R30m</td><td class="text-center">✓</td></tr></tbody></table>
+        
+        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART B – QUALITY ASSURANCE</h2>
+        <p class="ca-subsection-title font-semibold" style="margin-top:0.5rem; margin-bottom:0.5rem; text-transform: none;">Heads of Departments (HODs) or Specialists</p>
+        <table class="ca-table"><thead><tr><th style="width:35%">Name and Designation</th><th style="width:45%">Comment (from specialist and other stakeholders)</th><th style="width:20%">Signature</th></tr></thead><tbody><tr><td class="signature-block-cell">Sello Taku</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">Rudi Opperman</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">Malcolm Smit</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="signature-block-cell">Xolani Qamata</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr></tbody></table>
+        <table class="ca-table" style="margin-top:1rem;"><thead><tr><th style="width:35%">Designation</th><th style="width:25%">Recommended by</th><th style="width:15%">Signature</th><th style="width:25%">Recommendation signatures required</th></tr></thead><tbody><tr><td>ARM Technical</td><td class="signature-block-cell"></td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R1m or as requested</td></tr><tr><td>Executive Operations Support</td><td class="signature-block-cell"></td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R5m</td></tr><tr><td>Executive Projects</td><td class="signature-block-cell"></td><td class="signature-block-cell">&nbsp;</td><td>Projects &gt;R70m</td></tr></tbody></table>
+        <div class="comments-box" style="min-height: 6rem; margin-top: 1rem;"></div>
+        
+        <h2 class="ca-section-title" style="margin-top:0.25rem;">PART C – APPROVALS</h2>
+        <table class="ca-table"><thead><tr><th style="width:40%;">&nbsp;</th><th style="width:25%;">NAME</th><th style="width:15%;">SIGNATURE</th><th style="width:20%;">DATE</th></tr></thead><tbody><tr><td class="font-semibold">Operational Capital &lt;R10m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">SGM</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Financial Manager</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td class="font-semibold">Operational Capital &gt;R10m &lt;R15m Out Of Plan</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Executive Operations (Mines)</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr><tr><td style="padding-left:1rem;">Senior Executive Finance</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td><td class="signature-block-cell">&nbsp;</td></tr></tbody></table>
+        <div class="comments-box" style="min-height: 6rem; margin-top: 0.5rem;"></div>
+
+        <h2 class="ca-section-title">PART D - MOTIVATION</h2>
+        <h3 class="ca-subsection-title">1. Project Background</h3>
+        <p class="ca-text">Since 2021, Black Rock Operations has faced persistent challenges in adhering to planned mining dimensions, with mining height being a primary concern. The majority of faces are mined below the specified 4.5m to 5.0m range, often falling below 4.0m. This has created a cascade of operational and safety issues:</p>
+        <ul class="ca-list">
+            <li><b>Safety Risks:</b> Insufficient height prevents roof bolts from being installed at the correct angles, compromising ground support integrity and elevating the risk of Fall of Ground incidents. This has led to Section 54 work stoppages, impacting safety and productivity.</li>
+            <li><b>Production Losses:</b> Tonnes per blast have fallen significantly, driving up mining costs and preventing the achievement of production targets.</li>
+            <li><b>Quality Control:</b> Incorrect mining heights have caused dilution by mining into the high-iron content hanging wall, while leaving high-grade manganese in the footwall. This results in failure to meet customer specifications and incurs financial penalties.</li>
+        </ul>
+        <p class="ca-text">A joint investigation by BRMO Management and Technical Teams from ARM Ferrous and Assore identified the root cause as the limited capability of the current scalers. These machines can bar the face but cannot perform back-lashing to clear accumulated ore from the footwall. This prevents proper face marking, cleaning, and creates a risk of drilling into misfired explosives.</p>
+        
+        <h3 class="ca-subsection-title">2. Scope of the Project</h3>
+        <p class="ca-text">The primary goal of this project is to trial a new, fit-for-purpose Scaler that can address the identified operational shortfalls. The project scope includes the supply, delivery, and commissioning of a modified Caterpillar 444 Backhoe Loader for a six-month trial period at one of the shafts.</p>
+        <p class="ca-text">Following an extensive research and engagement process with six different scaler manufacturers (Getman, Jama, Normet, Aard, Maclean, and Barloworld), it was determined that no existing off-the-shelf machine could meet BRMO's dual requirement of both barring the face and back-lashing material 1m from the footwall. In response, Cat Barloworld proposed a unique solution: redesigning their 444 Backhoe Loader and equipping it with a hydraulic hammer to perform both critical functions. The scope of this project is limited to the trial of this single unit to validate its performance and benefits before a wider rollout is considered.</p>
+        
+        <h3 class="ca-subsection-title">3. Alternatives Considered</h3>
+        <p class="ca-text">An extensive investigation was conducted to find a suitable replacement for the current scaler. Six leading manufacturers were engaged, and their available products were evaluated against BRMO's user requirements. While most machines met the specifications for scaling height and dimensions, none offered the critical capability of back-lashing ore from the face. The alternatives were therefore deemed not suitable as they would not solve the core issue of footwall cleaning. The proposal from Cat Barloworld to custom-modify a 444 Backhoe Loader is the only identified solution that addresses all user requirements.</p>
+        
+        <h3 class="ca-subsection-title">4. Business Case</h3>
+        <p class="ca-text">The project is motivated by significant safety, production, and quality benefits. By enabling proper face preparation, the Caterpillar 444 Backhoe Loader will directly mitigate critical operational risks. The financial implications are primarily tied to avoiding losses and improving efficiency, rather than direct revenue generation.</p>
+        <p class="ca-text"><b>Benefits:</b></p>
+        <ul class="ca-list">
+            <li><b>Safety Improvement:</b> Proper footwall cleaning allows for the identification of misfires, eliminating a significant explosion risk. Adherence to mining height enables correct roof bolt installation, drastically reducing the risk of Fall of Ground incidents and associated work stoppages.</li>
+            <li><b>Production Increase:</b> Achieving the correct mining height is expected to restore tonnes per blast significantly, directly improving mining efficiency and helping to meet production targets. The new machine design, which minimizes whole-body movement, is also expected to have higher availability than the current, over-strained scalers.</li>
+            <li><b>Quality Management:</b> By enabling precise mining to the footwall contact, the project will prevent the dilution of ore with low-grade material from the hanging wall, ensuring customer specifications are met and avoiding financial penalties.</li>
+        </ul>
+        <p class="ca-text"><b>Business Deliverables (KPIs):</b></p>
+        <ul class="ca-list">
+            <li>Increase average tonnes per blast.</li>
+            <li>Improve mechanical availability of the scaling equipment.</li>
+            <li>Reduce the risk of Section 54 stoppages related to inadequate roof support.</li>
+            <li>Improved  compliance with planned mining heights (4.5m-5.0m).</li>
+        </ul>
+        
+        <h3 class="ca-subsection-title">Financial Motivation</h3>
+        <p class="ca-text">Not applicable. The project is motivated by safety compliance and operational efficiency improvements, which are expected to result in significant cost avoidance (related to production stoppages and quality penalties) rather than direct financial returns.</p>
+        <table class="ca-table">
+            <tbody>
+                <tr><th style="width: 30%;">Net Present Value (NPV)</th><td>N/A</td></tr>
+                <tr><th>Internal Rate of Return (IRR)</th><td>N/A</td></tr>
+                <tr><th>Pay Back Period</th><td>N/A</td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="ca-section-title">5. TECHNICAL SUMMARY</h2>
+        <p class="ca-text">The technical solution involves the procurement of a custom-modified Caterpillar 444 Backhoe Loader from Barloworld. The package includes the base machine and a comprehensive set of modifications and optional extras to ensure it is fully compliant and fit-for-purpose for the BRMO underground environment.</p>
+        <h3 class="ca-subsection-title">Scope of Supply</h3>
+        <p class="ca-text">The capital request covers the purchase of a complete, mine-ready machine package from Barloworld. The broad outline of the items included in the purchase is as follows:</p>
+        <ul class="ca-list">
+            <li><b>Base Machine:</b> 1 x Caterpillar 444 Backhoe Loader with a standard bucket and a H80S hydraulic hammer for scaling.</li>
+            <li><b>Brake System Modification:</b> A compliant, integrated fail-safe brake system, including Spring Applied Hydraulic Released (SAHR) brake heads, door/seatbelt interlocks, and neutral brake functionality.</li>
+            <li><b>Safety Systems:</b>
+                <ul>
+                    <li>Level 9 Strata Collision Avoidance System (CAS) / Proximity Detection System (PDS).</li>
+                    <li>On-board fire suppression system (activated from cab and ground level), supplemented by a 9kg fire extinguisher.</li>
+                    <li>Reverse camera and alarms.</li>
+                </ul>
+            </li>
+            <li><b>Operator & Machine Protection:</b>
+                <ul>
+                    <li>Cylinder and hose guards.</li>
+                    <li>Guards for the driveshaft and rear lights.</li>
+                </ul>
+            </li>
+            <li><b>Operational Systems:</b>
+                <ul>
+                    <li>Automated lubrication system.</li>
+                    <li>Fast-fill diesel system.</li>
+                </ul>
+            </li>
+             <li><b>Ancillary Items & Services:</b>
+                <ul>
+                    <li>Two spare tyres and rims.</li>
+                    <li>All required lighting, safety decals, and first aid/safety equipment.</li>
+                    <li>Operator and Maintenance training for 5 learners each.</li>
+                    <li>On-site disassembly, reassembly, and commissioning.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2 class="ca-section-title">6. OTHER PROJECT CONSIDERATIONS</h2>
+        <p class="ca-text"><b>Human Resources:</b> Current scaler operators will be trained and certified by the OEM and the BRMO Training Centre to operate the new equipment.</p>
+        <p class="ca-text"><b>Safety and Health:</b> The machine will be equipped with a closed cab, exhaust gas purifier, and fume diluter. A full OEM risk assessment will be completed prior to commissioning.</p>
+        <p class="ca-text"><b>Environmental:</b> The unit is specified with a minimum Tier 3 diesel engine to manage emissions.</p>
+        <p class="ca-text"><b>Procurement:</b> A single-source procurement from Barloworld is motivated by the fact that no other supplier could meet the unique technical requirements of the scope. The procurement will follow the normal BRMO process. The official quotation is attached in the appendix.</p>
+        <p class="ca-text"><b>Ongoing Operational Cost:</b> The machine will be maintained by BRMO personnel with technical support from the OEM as required.</p>
+        
+        <h2 class="ca-section-title">7. PROJECT MANAGEMENT SUMMARY</h2>
+        <h3 class="ca-subsection-title">Execution Approach</h3>
+        <p class="ca-text">The project will be managed by the BRMO Engineering department. The OEM, Barloworld, will be responsible for the supply, modification, delivery, and commissioning of the unit.</p>
+        <h3 class="ca-subsection-title">Schedule</h3>
+        <p class="ca-text">The indicative lead time from placement of order to commissioning is approximately 39 weeks, as per the OEM quotation. This includes factory production, shipping, modifications, and brake system fitment.</p>
+        <h3 class="ca-subsection-title">Risks</h3>
+        <p class="ca-text">The primary risk is that the modified machine does not perform the back-lashing function as effectively as designed. This will be mitigated through the 6-month trial period, during which performance will be closely monitored. A comprehensive risk assessment covering all operational aspects of the new machine will be conducted prior to commissioning.</p>
+        
+        <h2 class="ca-section-title">8. CONCLUSION AND RECOMMENDATION</h2>
+        <p class="ca-text">The inability to correctly scale and prepare mining faces presents a significant and ongoing safety and production risk to Black Rock Mine Operations. The custom-modified Caterpillar 444 Backhoe Loader is the only identified solution capable of addressing the root cause of this problem. It is recommended that capital of R9,745,759.00 be approved for the purchase and trial of this machine to validate its effectiveness in creating a safer and more productive mining environment.</p>
+
+        <h2 class="ca-section-title">APPENDIX 1: SUPPORTING DOCUMENTS AS APPLICABLE</h2>
+        <ul class="ca-list" style="list-style-type: none; padding-left: 0;">
+            <li>1. Senior Management Approval of Scope of Works (FOR-FIN-SC-GEN-G-33424)</li>
+            <li>2. BRMO Scaler Investigations Presentation</li>
+        </ul>
+        
+        <h2 class="ca-section-title">APPENDIX 2: SPECIFICATIONS, QUOTATIONS, BILLS OF QUANTITIES</h2>
+        <p class="ca-text"><b>1) Quotation Summary:</b></p>
+        <ul class="ca-list">
+            <li><b>Supplier:</b> Barloworld Equipment (Pty) Ltd</li>
+            <li><b>Quote No:</b> BWE/2025/K11168</li>
+            <li><b>Item:</b> 1 x Caterpillar 444 Backhoe Loader with H80S Hammer & Optional Extras</li>
+            <li><b>Total Price (Excl. VAT):</b> R7,796,607.00</li>
+            <li><b>Validity:</b> 30 days from 4 March 2025</li>
+        </ul>
+        <p class="ca-text"><i>(Full quotation document "Quotation for 444_Black Rock Mine.pdf" is attached for review.)</i></p>
+
     </div>
 
     <div id="preview-container"></div>
 
-    <script src="renderer.js"></script>
+    <script src="renderer.js" defer></script>
 </body>
 </html>
